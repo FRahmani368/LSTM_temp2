@@ -72,9 +72,13 @@ for seed in Randomseed:
         rootOut = os.path.join(os.path.sep, absRoot, 'TempDemo', 'FirstRun')  # Model output root directory: /data/rnnStreamflow
 
         forcing_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'Forcing_new', f_list)  # obs_18basins
-        forcing_data =[]#pd.read_feather(forcing_path)
         attr_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'attr_new', a_list)
-        attr_data =[]#pd.read_feather(attr_path)
+        if os.path.exists(os.path.join(os.path.sep, rootDatabase, 'SNTemp', 'Statistics_basinnorm.json')):
+          forcing_data =[]
+          attr_data =[]
+        else:
+          forcing_data = pd.read_feather(forcing_path)
+          attr_data = pd.read_feather(attr_path)
         camels.initcamels(forcing_data, attr_data, TempTarget, rootDatabase)  # initialize three camels module-scope variables in camels.py: dirDB, gageDict, statDict
 
 
