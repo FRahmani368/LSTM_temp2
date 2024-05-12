@@ -18,9 +18,12 @@ import random
 
 forcing_list = [#'no_dam_forcing_60%_days118sites.feather',
                 # 'with_dam_forcing_60%_days188sites.feather',
-                'forcing_10%_days_1_Gallice_410sites.feather',
-                'forcing_60%_days_1_Gallice_301sites.feather',
-                'forcing_99%_days_1_Gallice_94sites.feather'
+                # 'forcing_10%_days_1_Gallice_410sites.feather',
+                # 'forcing_60%_days_1_Gallice_301sites.feather',
+                # 'forcing_99%_days_1_Gallice_94sites.feather',
+    'forcing_99%_days_85sites_forPUB_2.feather',
+    'forcing_60%_days_266sites_forPUB_2.feather',
+    'forcing_10%_days_375sites_forPUB_2.feather'
                 # 'forcing_PUB_5data_Gallice_0.feather',
                 # 'forcing_PUB_5data_Gallice_0.feather',
                 # 'forcing_PUB_5data_Gallice_0.feather'
@@ -30,9 +33,12 @@ forcing_list = [#'no_dam_forcing_60%_days118sites.feather',
                 ]
 attr_list = [#'no_dam_attr_temp60%_days118sites.feather',
              #'with_dam_attr_temp60%_days188sites.feather',
-                'attr_temp10%_days_1_Gallice_410sites.feather',
-                'attr_temp60%_days_1_Gallice_301sites.feather',
-                'attr_temp99%_days_1_Gallice_94sites.feather'
+                # 'attr_temp10%_days_1_Gallice_410sites.feather',
+                # 'attr_temp60%_days_1_Gallice_301sites.feather',
+                # 'attr_temp99%_days_1_Gallice_94sites.feather'
+    'attr_99%_days_85sites_forPUB_2.feather',
+    'attr_60%_days_266sites_forPUB_2.feather',
+    'attr_10%_days_375sites_forPUB_2.feather'
                 # 'attr_PUB_5data_Gallice_0.feather',
                 # 'attr_PUB_5data_Gallice_0.feather',
                 # 'attr_PUB_5data_Gallice_0.feather'
@@ -42,9 +48,9 @@ attr_list = [#'no_dam_attr_temp60%_days118sites.feather',
              #'attr_temp99%_days_99sites.feather'
              ]
 
-Batch_list = [205, 151, 47]
+Batch_list = [43, 133, 188]
 Hidden_list = [100, 100, 100]
-Randomseed = [ 1, 2, 3, 4, 5]
+Randomseed = [0, 1, 2, 3, 4, 5]
 for seed in Randomseed:
     for f_list, a_list, b_list, h_list in zip(forcing_list, attr_list, Batch_list, Hidden_list):
 

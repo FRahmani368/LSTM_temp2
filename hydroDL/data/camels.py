@@ -94,7 +94,7 @@ def readGageInfo(dirDB):
     fieldLst = ['huc', 'id', 'name', 'lat', 'lon', 'area']
     out = dict()
     for s in fieldLst:
-        if s is 'name':
+        if s == 'name':
             out[s] = data[fieldLst.index(s)].values.tolist()
         else:
             out[s] = data[fieldLst.index(s)].values
@@ -158,7 +158,7 @@ def readForcingGage(usgsId, varLst=forcingLst, *, dataset='nldas'):
     ##dataFolder = os.path.join(
       ##  dirDB, 'basin_timeseries_v1p2_metForcing_obsFlow',
         ##'basin_dataset_public_v1p2', 'basin_mean_forcing')
-    if dataset is 'daymet':
+    if dataset == 'daymet':
         tempS = 'cida'
     else:
         tempS = dataset
@@ -386,7 +386,7 @@ def basinNorm(x, gageid, toNorm):
     return flow
 
 def createSubsetAll(opt, **kw):
-    if opt is 'all':
+    if opt == 'all':
         idLst = gageDict['id']
         subsetFile = os.path.join(dirDB, 'Subset', 'all.csv')
         np.savetxt(subsetFile, idLst, delimiter=',', fmt='%d')

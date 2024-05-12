@@ -222,7 +222,7 @@ def plotTS(t,
                 ax.plot(
                     tt, yy, color=cLst[k], label=legStr, linewidth=linewidth)
         else:
-            if markerLst[k] is '-':
+            if markerLst[k] == '-':
                 if linespec is not None:
                     ax.plot(tt, yy, color=cLst[k], label=legStr, linestyle=linespec[k], lw=1.15)
                 else:
@@ -754,25 +754,25 @@ def plotCDF(xLst,
         else:
             legStr = legendLst[k]
         if ref is not None:
-            if ref is '121':
+            if ref == '121':
                 yRef = yRank
-            elif ref is 'norm':
+            elif ref == 'norm':
                 yRef = scipy.stats.norm.cdf(xSort, 0, 1)
             rmse = np.sqrt(((xSort - yRef)**2).mean())
             ksd = np.max(np.abs(xSort - yRef))
             rmseLst.append(rmse)
             ksdLst.append(ksd)
-            if showDiff is 'RMSE':
+            if showDiff == 'RMSE':
                 legStr = legStr + ' RMSE=' + '%.3f' % rmse
-            elif showDiff is 'KS':
+            elif showDiff == 'KS':
                 legStr = legStr + ' KS=' + '%.3f' % ksd
         ax.plot(xSort, yRank, color=cLst[k], label=legStr, linestyle=linespec[k])
         ax.grid(b=True)
     if xlim is not None:
         ax.set(xlim=xlim)
-    if ref is '121':
+    if ref == '121':
         ax.plot([0, 1], [0, 1], 'k', label='y=x')
-    if ref is 'norm':
+    if ref == 'norm':
         xNorm = np.linspace(-5, 5, 1000)
         normCdf = scipy.stats.norm.cdf(xNorm, 0, 1)
         ax.plot(xNorm, normCdf, 'k', label='Gaussian')
