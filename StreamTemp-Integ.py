@@ -16,39 +16,15 @@ import pandas as pd
 import math
 import random
 
-forcing_list = [#'no_dam_forcing_60%_days118sites.feather',
-                # 'with_dam_forcing_60%_days188sites.feather',
-                # 'forcing_10%_days_1_Gallice_410sites.feather',
-                # 'forcing_60%_days_1_Gallice_301sites.feather',
-                # 'forcing_99%_days_1_Gallice_94sites.feather',
-    'forcing_99%_days_85sites_forPUB_2.feather',
-    'forcing_60%_days_266sites_forPUB_2.feather',
-    'forcing_10%_days_375sites_forPUB_2.feather'
-                # 'forcing_PUB_5data_Gallice_0.feather',
-                # 'forcing_PUB_5data_Gallice_0.feather',
-                # 'forcing_PUB_5data_Gallice_0.feather'
-                #forcing_60%_days_306sites.feather',
-                #'forcing_10%_days_415sites.feather',
-                #'forcing_99%_days_99sites.feather'
+
+forcing_list = [
+                'forcing_99%_days_99sites.feather'
                 ]
-attr_list = [#'no_dam_attr_temp60%_days118sites.feather',
-             #'with_dam_attr_temp60%_days188sites.feather',
-                # 'attr_temp10%_days_1_Gallice_410sites.feather',
-                # 'attr_temp60%_days_1_Gallice_301sites.feather',
-                # 'attr_temp99%_days_1_Gallice_94sites.feather'
-    'attr_99%_days_85sites_forPUB_2.feather',
-    'attr_60%_days_266sites_forPUB_2.feather',
-    'attr_10%_days_375sites_forPUB_2.feather'
-                # 'attr_PUB_5data_Gallice_0.feather',
-                # 'attr_PUB_5data_Gallice_0.feather',
-                # 'attr_PUB_5data_Gallice_0.feather'
-             #'with_dam_attr_temp10%_days254sites.feather'
-             #'attr_temp60%_days_306sites.feather',
-             #'attr_temp10%_days_415sites.feather',
-             #'attr_temp99%_days_99sites.feather'
+attr_list = [
+             'attr_temp99%_days_99sites.feather'
              ]
 
-Batch_list = [43, 133, 188]
+Batch_list = [47]
 Hidden_list = [100, 100, 100]
 Randomseed = [0, 1, 2, 3, 4, 5]
 for seed in Randomseed:
@@ -97,9 +73,13 @@ for seed in Randomseed:
         rootOut = os.path.join(os.path.sep, absRoot, 'TempDemo', 'FirstRun')  # Model output root directory: /data/rnnStreamflow
 
         forcing_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'Forcing_new', f_list)  # obs_18basins
-        forcing_data =[]#pd.read_feather(forcing_path)
         attr_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'attr_new', a_list)
-        attr_data =[]#pd.read_feather(attr_path)
+        if os.path.exists(os.path.join(os.path.sep, rootDatabase, 'SNTemp', 'Statistics_basinnorm.json')):
+          forcing_data =[]
+          attr_data =[]
+        else:
+          forcing_data = pd.read_feather(forcing_path)
+          attr_data = pd.read_feather(attr_path)
         camels.initcamels(forcing_data, attr_data, TempTarget, rootDatabase)  # initialize three camels module-scope variables in camels.py: dirDB, gageDict, statDict
 
 
@@ -294,23 +274,7 @@ for seed in Randomseed:
         if 2 in Action:
             TestEPOCH = 2000     # it was 200  # choose the model to test after trained "TestEPOCH" epoches
             # generate a folder name list containing all the tested model output folders
-            caseLst = ['All-2010-2016']#, '494-B247-H100','460-B230-H100' ,'327-B163-H100','258-B129-H100' ,'169-B169-H100', '29-B29-H100']
-            #caseLst =['All-2010-2016', 'All-2010-2016 - 156', 'All-2010-2016 - 1032']
-            #forcing_path = [forcing_path]#,
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing1%_days_494sites.feather'),
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing20%_days_460sites.feather'),
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing70%_days_327sites.feather'),
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing90%_days_258sites.feather'),
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing98%_days_169sites.feather'),
-                            # os.path.join(os.path.sep, rootDatabase, 'Forcing', 'forcing100%_days_29sites.feather')]
-            #attr_path = [attr_path]#,
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr1%_days_494sites.feather'),
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr20%_days_460sites.feather'),
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr70%_days_327sites.feather'),
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr90%_days_258sites.feather'),
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr98%_days_169sites.feather'),
-                         # os.path.join(os.path.sep, rootDatabase, 'Attribute', 'attr100%_days_29sites.feather')
-                         # ]
+            caseLst = ['All-2010-2016']
             nDayLst = [] #[1, 3]
             for nDay in nDayLst:
                 caseLst.append('All-85-95-DI' + str(nDay))
@@ -369,96 +333,3 @@ for seed in Randomseed:
 
 
 
-
-            # # Show boxplots of the results
-            # plt.rcParams['font.size'] = 14
-            # keyLst = ['Bias','RMSE','ubRMSE', 'NSE', 'Corr', 'NSE_res', 'Corr_res']
-            # dataBox = list()
-            # for iS in range(len(keyLst)):
-            #     statStr = keyLst[iS]
-            #     temp = list()
-            #     for k in range(len(statDictLst_res)):
-            #         data = statDictLst_res[k][statStr]
-            #         data = data[~np.isnan(data)]
-            #         temp.append(data)
-            #     dataBox.append(temp)
-            # labelname =['20%pub', '1%_data', '20%_data', '70%_data', '90%_data', '98%_data', '100%_data']#['STA:316,batch158', 'STA:156,batch156', 'STA:1032,batch516']   # ['LSTM-34 Basin']
-            # for nDay in nDayLst:
-            #     labelname.append('DI(' + str(nDay) + ')')
-            # xlabel = ['Bias ($\mathregular{deg}$C)','RMSE', 'ubRMSE', 'NSE', 'Corr', 'NSE_res', 'Corr_res']
-            # fig = plot.plotBoxFig(dataBox, xlabel, label2=labelname, sharey=False, figsize=(16, 8))
-            # fig.patch.set_facecolor('white')
-            # boxPlotName = "Target:"+TempTarget+" ,epochs="+str(TestEPOCH)+" ,Hiddensize="+str(HIDDENSIZE)+" ,RHO="+str(RHO)+" ,Batches="+str(BATCH_SIZE)
-            # fig.suptitle(boxPlotName, fontsize=12)
-            # plt.rcParams['font.size'] = 12
-            # if retrained == True:
-            #     plt.savefig(os.path.join(rootOut, out_retrained, (str(len(forcing_path))+"Boxplot.png")))  #, dpi=500
-            # else:
-            #     plt.savefig(os.path.join(rootOut, save_path, (str(len(forcing_path))+"Boxplot.png")))   #, dpi=500
-            # fig.show()
-            # # Plot timeseries and locations
-
-        #
-        #
-        #         # get Camels gages info
-        #    ## gageinfo = camels.gageDict
-        # ##    gagelat = gageinfo['lat']
-        #   ##  gagelon = gageinfo['lon']
-        #     # randomly select 4 gages to plot
-        #     gageindex = np.random.randint(0, 34, size=4).tolist()
-        #     gageindex=[0]#,4,20,22]  #[0, 11, 22, 29]   #(seg_id_nat:1450)', '(seg_id_nat:1601)', '(seg_id_nat:2013)', '(seg_id_nat:2320)
-        #    # plat = gagelat[gageindex]
-        #    # plon = gagelon[gageindex]
-        #     t = utils.time.tRange2Array(tRange)
-        #
-        #     attr = pd.read_feather(attr_path)
-        #     path0 = ('G:\\Farshid\\CONUS_Temp\\Example3\\TempDemo\\FirstRun\\After_eliminating_SWE')
-        #     path_combine = ('without_maj_dam_combine_discharge\\epochs2000_batch59_rho365_hiddensize100_Tstart20101001_Tend20141001\\All-2010-2016\\pred.npy')
-        #     path_no = 'without_maj_dam_without-discharge\\epochs2000_batch59_rho365_hiddensize100_Tstart20101001_Tend20141001\\All-2010-2016\\pred.npy'
-        #     pred_combine = np.load(os.path.join(os.path.sep, path0, path_combine))
-        #     pred_no = np.load(os.path.join(os.path.sep, path0, path_no))
-        #     predLst.append(pred_combine)
-        #     predLst.append(pred_no)
-        #
-        #
-        #
-        #     # Stations = ['02336526', '01037380', '04087204', '03293000',
-        #     #             '01581920', '12334510', '06052500', '02156500', # '02334430', , '06205000'
-        #     #             '02330450', '03061000', '05058000', '13056500', '14211720', '04041500', '06077200', '13013650',
-        #     #             '01196500', '01037380'
-        #     #             ]
-        #
-        #     plot.TempSeries_4_Plots_ERL(attr_path, statDictLst_res, obs, predLst, TempTarget, tRange, boxPlotName, rootOut, save_path, sites=18, Stations=None, retrained=retrained)
-        #
-        #     plot.plotMap(statDictLst[0]['NSE'], lat=attr['lat'].to_numpy(), lon=attr['lon'].to_numpy(), title='NSE'+boxPlotName)
-        #
-        #     if retrained==True:
-        #       #  plt.savefig(os.path.join(rootOut, out_retrained, "MapNSE.png"), dpi=500)
-        #         plt.savefig((os.path.join(rootOut, out_retrained, "MapNSE-LowRes.png")), bbox_inches='tight')
-        #     else:
-        #     #    plt.savefig(os.path.join(rootOut, save_path, "MapNSE.png"), dpi=500)
-        #         plt.savefig((os.path.join(rootOut, save_path, "MapNSE-LowRes.png")), bbox_inches='tight')
-        #     plt.show()
-        #
-        #
-        #
-        #            # plot gage location
-        #        # plot.plotlocmap(plat, plon, ax=axes[-1], baclat=gagelat, baclon=gagelon, title=subtitle[-1], txtlabel=txt)
-        #        # fig.patch.set_facecolor('white')
-        #
-        #
-        #     # Plot NSE spatial patterns
-        #     gageinfo = camels.gageDict
-        #  #   gagelat = gageinfo['lat']
-        #   #  gagelon = gageinfo['lon']
-        #    # nDayLst = [1, 3]
-        #     #fig, axs = plt.subplots(3,1, figsize=(8,8), constrained_layout=True)
-        # #    axs = axs.flat
-        #  #   data = statDictLst[0]['NSE']
-        #   #  plot.plotMap(data, ax=axs[0], lat=gagelat, lon=gagelon, title='(a) LSTM', cRange=[0.0, 1.0], shape=None)
-        #    # data = statDictLst[1]['NSE']
-        #     #plot.plotMap(data, ax=axs[1], lat=gagelat, lon=gagelon, title='(b) DI(1)', cRange=[0.0, 1.0], shape=None)
-        # #    deltaNSE = statDictLst[1]['NSE'] - statDictLst[0]['NSE']
-        #  #   plot.plotMap(deltaNSE, ax=axs[2], lat=gagelat, lon=gagelon, title='(c) Delta NSE', shape=None)
-        #   #  fig.show()
-        #    # plt.savefig(os.path.join(rootOut, save_path, "/NSEPattern.png"), dpi=500)
