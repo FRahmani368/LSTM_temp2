@@ -4,7 +4,7 @@
 randomseed: [0]   # None means random
 Action: [0, 1]   # 0:Train,   1: Test
 device: "cuda"
-nmul: 1
+#nmul: 1
 ### Directories of forcings, attributes, and output
 # ICDS
 #forcing_path: "//storage//work//fzr5082//PGML_STemp_results//inputs//dataset_20231113//forcing_415_20231113.feather" #          no_dam_forcing_99%_days34sites.feather
@@ -74,58 +74,3 @@ varC_NN: [
 #  'glim_2nd_class_frac', 'carbonate_rocks_frac', 'geol_porostiy',
 #  'geol_permeability'
 ]
-
-#### process based stream temperature model configuration
-#temp_model_name: "None"       #   "None" means no temperature model, "SNTEMP", "SNTEMP_gw0"
-#routing_temp_model: True
-#res_time_type: "SNTEMP"   #"van Vliet"  # "van Vliet", "Meisner", "SNTEMP"
-#res_time_lenF_ssflow: 30   #60
-#res_time_lenF_bas_shallow: 180 #
-#res_time_lenF_gwflow: 365 #
-#res_time_lenF_srflow: 1
-#lat_temp_adj: True
-#shade_smoothening: False
-#frac_smoothening_mode: False
-#frac_smoothening_gw_filter_size: 40
-#frac_smoothening_ss_filter_size: 40
-#STemp_default_emissivity_veg: 0
-#STemp_default_albedo: 0.1
-#STemp_default_delta_Z: 1.0       # for streambed conduction
-#params_water_density: 1000
-#params_C_w: 4184    # J/kg. K
-#NEARZERO: 1e-5
-#Epan_coef: 1.0
-#initial_values_shade_fraction: 0.1
-#varT_temp_model: ["ccov", 'vp(Pa)', "srad(W/m2)"]  # tmean is used in air_T_memory.  #'dayl(s)',  , "dayofyear", "t_monthly(C)",
-#varC_temp_model: ["DRAIN_SQKM", "stream_length_square", 'SLOPE_PCT',
-#              'ELEV_MEAN_M_BASIN']       #  "area_gages2",   "RIP100_FOREST", "lat"   'PPTAVG_BASIN',
-#dyn_params_list_temp: ["smax"] #, "f1", "f2" ["width_coef_pow", "width_coef_factor", "w1_shade", ]    #"albedo", "w2_shade"
-#
-#### process based streamflow model configurations
-## hydro_model_name options: 1-marrmot_PRMS; 2-marrmot_PRMS_refreeze; 3-marrmot_PRMS_gw0;
-##                           4-marrmot_PRMS_interflow; 5-HBV; 6-SACSMA; 7-SACSMA_with_snow; 8-None;
-##                           9-marrmot_PRMS_mod
-#hydro_model_name: "SACSMA_with_snow"
-#varT_hydro_model: ['prcp(mm/day)','tmean(C)', "PET_hargreaves(mm/day)"] #, "t_monthly(C)", 'dayl(s)', "dayofyear"]    # , "pet_nldas"
-#varC_hydro_model: ['DRAIN_SQKM', "lat"]    # "area_gages2"
-#
-#routing_hydro_model: True
-## if hydro_model_name = None --> we need a path to read the flow data from
-#flow_data_path: "G:\\Farshid\\PGML_STemp_results\\inputs\\MSWET_MSWX_2003_GAGES_II_1384_merit\\gages-II\\npy\\hydro_sim_50_only_flow_0823.npy"
-#dyn_params_list_hydro: []  #["pctim", "smax", "parTT"]# ["parBETAET"]   #["scx", "cgw", "alpha", "tt"]   #
-#### PET model configurations
-#potet_module: "dataset" # "potet_hamon"  # "potet_hargreaves" , "dataset" -> Hamon is not ready beacause of lack of monthly coef
-#potet_dataset_name: "PET_hargreaves(mm/day)"  #"PET_hargreaves(mm/day)" # if "potet_module" == "dataset"
-#
-##srunoff_module: "srunoff_smidx"   # the nonlinear method, "srunoff_carea" linear method
-##Dprst_flag: 1      # Dprst_flag = 1 means depression storage simulation is computed ( 0= no, 1 = yes)
-##static_params_list_SNTEMP: [0,1,2,3,4,5, 6,7, 8, 9]
-##semi_static_params_list_SNTEMP: []
-##method_for_semi_static_param_SNTEMP: ["average", "average", "average", "average"]
-##interval_for_semi_static_param_SNTEMP: [5, 5]
-##static_params_list_prms: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17, 18, 19, 20]
-##semi_static_params_list_prms: []
-##method_for_semi_static_param_prms: ["average", "average", "average", "average"]
-##interval_for_semi_static_param_prms: [30, 30]
-
-
