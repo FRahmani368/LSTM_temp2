@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from hydroDL.data import camels
 from hydroDL.model import rnn, crit, train
 from hydroDL.post import plot, stat
-
+from config.read_configurations import config_hydro_temp as config
 
 import numpy as np
 import os
@@ -18,10 +18,12 @@ import random
 
 
 forcing_list = [
-                'forcing_99%_days_99sites.feather'
+                # 'forcing_99%_days_99sites.feather'
+                "f50_mswep_03122024.npy"
                 ]
 attr_list = [
-             'attr_temp99%_days_99sites.feather'
+             # 'attr_temp99%_days_99sites.feather'
+            "attr50_mswep_03122024.npy"
              ]
 
 Batch_list = [47]
@@ -72,14 +74,18 @@ for seed in Randomseed:
         rootDatabase = os.path.join(os.path.sep, absRoot, 'scratch', 'SNTemp')  # CAMELS dataset root directory: /scratch/Camels
         rootOut = os.path.join(os.path.sep, absRoot, 'TempDemo', 'FirstRun')  # Model output root directory: /data/rnnStreamflow
 
-        forcing_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'Forcing_new', f_list)  # obs_18basins
-        attr_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'attr_new', a_list)
+        p_data = r"G:\Farshid\PGML_STemp_results\inputs\MSWET_MSWX_2003_GAGES_II_1384_merit\gages-II\npy"
+        forcing_path = os.path.join(os.path.sep, p_data, f_list)  # obs_18basins
+        attr_path = os.path.join(os.path.sep, p_data, a_list)
+        # forcing_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'Forcing_new', f_list)  # obs_18basins
+        # attr_path = os.path.join(os.path.sep, rootDatabase, 'Forcing', 'attr_new', a_list)
         if os.path.exists(os.path.join(os.path.sep, rootDatabase, 'SNTemp', 'Statistics_basinnorm.json')):
           forcing_data =[]
           attr_data =[]
         else:
           forcing_data = pd.read_feather(forcing_path)
           attr_data = pd.read_feather(attr_path)
+
         camels.initcamels(forcing_data, attr_data, TempTarget, rootDatabase)  # initialize three camels module-scope variables in camels.py: dirDB, gageDict, statDict
 
 
