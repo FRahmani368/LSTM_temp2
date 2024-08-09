@@ -205,6 +205,9 @@ def take_sample_train(args, dataset_dictionary, ngrid_train, nt, batchSize):
     dataset_dictionary_sample["obs"] = selectSubset(
         args, dataset_dictionary["obs"], iGrid, iT, args["rho"], has_grad=False, warm_up=args["warm_up"]
     )[args["warm_up"]:, :, :]
+    dataset_dictionary_sample["obs_scaled"] = selectSubset(
+        args, dataset_dictionary["obs_scaled"], iGrid, iT, args["rho"], has_grad=False, warm_up=args["warm_up"]
+    )[args["warm_up"]:, :, :]
     # dataset_dictionary_sample["obs"] = converting_flow_from_ft3_per_sec_to_mm_per_day(args,
     return dataset_dictionary_sample
 

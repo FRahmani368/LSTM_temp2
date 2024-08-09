@@ -128,13 +128,14 @@ class CudnnLstm(torch.nn.Module):
 
 
 class CudnnLstmModel(torch.nn.Module):
-    def __init__(self, *, nx, ny, hiddenSize, dr=0.5):
+    def __init__(self, *, nx, ny, hiddenSize, args, dr=0.5):
         super(CudnnLstmModel, self).__init__()
         self.nx = nx
         self.ny = ny
         self.hiddenSize = hiddenSize
         self.ct = 0
         self.nLayer = 1
+        self.args = args
         self.linearIn = torch.nn.Linear(nx, hiddenSize)
         self.lstm = CudnnLstm(  # LSTMcell_untied CudnnLstm farshid
             inputSize=hiddenSize, hiddenSize=hiddenSize, dr=dr
@@ -145,12 +146,20 @@ class CudnnLstmModel(torch.nn.Module):
         self.linearOut = torch.nn.Linear(hiddenSize, ny)
         self.gpu = 1
         self.activation_sigmoid = torch.nn.Sigmoid()
+        self.relu = F.relu
 
     def forward(self, x, doDropMC=False, dropoutFalse=False):
         x0 = F.relu(self.linearIn(x))
         outLSTM, (hn, cn) = self.lstm(x0, doDropMC=doDropMC, dropoutFalse=dropoutFalse)
         out = self.linearOut(outLSTM)
+        # doing relu for target = 00060_Mean
+        out_flow = self.relu(out[:, :, self.args["target"].index("00060_Mean")])
+        out_temp = out[:, :, self.args["target"].index("00010_Mean")]
         ### Farshid added this line:
         # out = self.activation_sigmoid(out)
-        return out
+        if self.args["target"].index("00010_Mean") == 0:  # to keep the order of outputs the same
+            out_final = torch.cat((torch.unsqueeze(out_temp, 2), torch.unsqueeze(out_flow, 2)), axis=2)
+        else:
+            out_final = torch.cat((torch.unsqueeze(out_flow, 2), torch.unsqueeze(out_temp, 2)), axis=2)
+        return out_final
 

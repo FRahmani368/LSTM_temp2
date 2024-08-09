@@ -38,10 +38,10 @@ t_test: [19950101, 20100101]    # the first year is for warm_up
 warm_up: 0
 rho: 365
 batch_size: 100
-EPOCHS: 1
+EPOCHS: 300
 hidden_size: 256
 dropout: 0.5
-saveEpoch: 1
+saveEpoch: 100
 no_basins: 25   # number of basins sampled in testing
 varT_NN: ['prcp(mm/day)', 'tmean(C)', 'dayl(s)', "PET_hargreaves(mm/day)"]   # 'dayl(s)', , 'tmin(C)', 'vp(Pa)','srad(W/m2)', pet_nldas
 varC_NN: [
