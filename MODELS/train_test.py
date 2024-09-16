@@ -76,7 +76,7 @@ def train_NN_model(args, model, optim):
     print("Training ended")
 
 
-def test_differentiable_model(args, model):
+def test_NN_model(args, model):
     warm_up = args["warm_up"]
     # nmul = args["nmul"]
     model.eval()

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5405e2a9-c9ab-4bf0-ab62-6f9b53eef495" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MODELS/train_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/MODELS/train_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config_NN_model.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_NN_model.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_LSTM.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_LSTM.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
