@@ -32,16 +32,16 @@ loss_function_weights:
     w1: 5      # w1: flow loss weight (11.0), for RmseLoss_BFI_temp(w1=5.0, w2=1.0, w3=0.05,)
     w2: 1.0
 target: ["00010_Mean"]#, "00010_Mean"]#, "BFI_AVE"] #, "BFI_AVE", "PET"]     #
-tRange: [19800101, 20140101]
-t_train: [20100101, 20140101]   # there should be an overlap because of the warm_up
-t_test: [19950101, 20100101]    # the first year is for warm_up
+tRange: [19800101, 20230101]
+t_train: [20180101, 20230101]   # there should be an overlap because of the warm_up
+t_test: [20100101, 20180101]    # the first year is for warm_up
 warm_up: 0
 rho: 365
 batch_size: 100
-EPOCHS: 20
+EPOCHS: 1
 hidden_size: 256
 dropout: 0.5
-saveEpoch: 20
+saveEpoch: 1
 no_basins: 25   # number of basins sampled in testing
 varT_NN: ['prcp(mm/day)', 'tmean(C)', 'dayl(s)', "PET_hargreaves(mm/day)"]   # 'dayl(s)', , 'tmin(C)', 'vp(Pa)','srad(W/m2)', pet_nldas
 varC_NN: [

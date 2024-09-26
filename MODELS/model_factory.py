@@ -23,7 +23,9 @@ class create_NN_models(torch.nn.Module):
             self.NN_model = CudnnLstmModel(nx=self.nx,
                                            ny=self.ny,
                                            hiddenSize=self.args["hidden_size"],
-                                           dr=self.args["dropout"])
+                                           args=self.args,
+                                           dr=self.args["dropout"],
+                                           )
         elif self.args["NN_model_name"] == "MLP":
             self.NN_model = MLPmul(self.args, nx=self.nx, ny=self.ny)
         else:

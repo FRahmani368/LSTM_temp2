@@ -24,7 +24,7 @@ def main_LSTM(args):
     if 1 in args["Action"]:  # testing mode
         modelFile = os.path.join(args["out_dir"], "model_Ep" + str(args["EPOCHS"]) + ".pt")
         model = torch.load(modelFile)
-        train_test.test_differentiable_model(
+        train_test.test_NN_model(
             args=args,
             model=model
         )

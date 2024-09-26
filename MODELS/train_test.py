@@ -23,10 +23,12 @@ def train_NN_model(args, model, optim):
     init_norm_stats(args, dataset_dictionary["x_NN"], dataset_dictionary["c_NN"], dataset_dictionary["obs"])
     # normalize
     x_NN_scaled = transNorm(args, dataset_dictionary["x_NN"], varLst=args["varT_NN"], toNorm=True)
+    obs_scaled = transNorm(args, dataset_dictionary["obs"], varLst=args["target"], toNorm=True)
     c_NN_scaled = transNorm(args, dataset_dictionary["c_NN"], varLst=args["varC_NN"], toNorm=True)
     c_NN_scaled = np.repeat(np.expand_dims(c_NN_scaled, 0), x_NN_scaled.shape[0], axis=0)
     del dataset_dictionary["x_NN"],   # no need the real values anymore
     dataset_dictionary["inputs_NN_scaled"] = np.concatenate((x_NN_scaled, c_NN_scaled), axis=2)
+    dataset_dictionary["obs_scaled"] = obs_scaled
     del x_NN_scaled, c_NN_scaled   # we just need "inputs_NN_model" which is a combination of these two
     ### defining the loss function
     lossFun = get_lossFun(args, dataset_dictionary["obs"])  # obs is needed for certain loss functions, not all of them
@@ -47,9 +49,10 @@ def train_NN_model(args, model, optim):
             dataset_dictionary_sample = take_sample_train(args, dataset_dictionary, ngrid_train, nt, batchSize)
             # Batch running of the differentiable model
             out_model = model(dataset_dictionary_sample)
+
             # loss function
             loss = lossFun(args, out_model,
-                           dataset_dictionary_sample["obs"],
+                           dataset_dictionary_sample["obs_scaled"],
                            igrid=dataset_dictionary_sample["iGrid"])
             loss.backward()  # retain_graph=True
             optim.step()
@@ -73,7 +76,7 @@ def train_NN_model(args, model, optim):
     print("Training ended")
 
 
-def test_differentiable_model(args, model):
+def test_NN_model(args, model):
     warm_up = args["warm_up"]
     # nmul = args["nmul"]
     model.eval()
@@ -105,8 +108,9 @@ def test_differentiable_model(args, model):
         out_model = model(dataset_dictionary_sample)
         # Convert all tensors in the dictionary to CPU
         out_model_cpu = out_model.cpu().detach()
+        out_model_cpu_real = transNorm(args, out_model_cpu.numpy(), varLst=args["target"], toNorm=False)
         # out_diff_model_cpu = tuple(outs.cpu().detach() for outs in out_diff_model)
-        list_out_model.append(out_model_cpu)
+        list_out_model.append(torch.tensor(out_model_cpu_real))
 
     # getting rid of warm-up period in observation dataset
     y_obs = dataset_dictionary["obs"]
