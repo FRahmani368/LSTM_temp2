@@ -35,6 +35,7 @@ EPOCHS: 100
 hidden_size: 256
 dropout: 0.5
 saveEpoch: 1
+EPOCH_testing: 1   # which epoch you want to pick to test?### you can choose different types of loss functions based on your need
 no_basins: 25   # number of basins sampled in testing
 varT_NN: ['prcp(mm/day)', 'tmean(C)', 'dayl(s)', "PET_hargreaves(mm/day)"]   # 'dayl(s)', , 'tmin(C)', 'vp(Pa)','srad(W/m2)', pet_nldas
 varC_NN: [
