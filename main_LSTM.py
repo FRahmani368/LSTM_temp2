@@ -22,7 +22,7 @@ def main_LSTM(args):
             optim=optim
         )
     if 1 in args["Action"]:  # testing mode
-        modelFile = os.path.join(args["out_dir"], "model_Ep" + str(args["EPOCHS"]) + ".pt")
+        modelFile = os.path.join(args["out_dir"], "model_Ep" + str(args["EPOCH_testing"]) + ".pt")
         model = torch.load(modelFile)
         train_test.test_NN_model(
             args=args,
